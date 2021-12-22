@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:restoapp/colors.dart';
 import 'package:restoapp/screens/wrapper.dart';
 
 void main() {
@@ -13,8 +14,11 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      
       title: 'RestoApp',
+      theme: ThemeData(
+        primaryColor: kprimarycolor,
+        scaffoldBackgroundColor: backgroundcolor,
+      ),
       home: Wrapper(),
     );
   }
