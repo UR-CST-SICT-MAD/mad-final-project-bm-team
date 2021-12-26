@@ -1,7 +1,5 @@
-import 'dart:html';
-
 import 'package:flutter/material.dart';
-import 'package:restoapp/colors.dart';
+// import 'package:restoapp/colors.dart';
 import 'package:restoapp/screens/components/body.dart';
 
 class Home extends StatelessWidget {

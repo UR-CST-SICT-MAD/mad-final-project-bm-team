@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:restoapp/screens/authenticate/login.dart';
 
@@ -9,12 +10,10 @@ class Register extends StatefulWidget {
 }
 
 class _State extends State<Register> {
-  TextEditingController nameController = TextEditingController();
-  TextEditingController passwordController = TextEditingController();
-  TextEditingController FnameController = TextEditingController();
-  TextEditingController LnameController = TextEditingController();
-  TextEditingController EmailController = TextEditingController();
-  TextEditingController RpasswordController = TextEditingController();
+  //String _email;
+  TextEditingController _usernamecontroller = TextEditingController();
+  TextEditingController _emailController = TextEditingController();
+  TextEditingController _passwordController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -45,82 +44,98 @@ class _State extends State<Register> {
                       style: TextStyle(fontSize: 25),
                     )),
                 Container(
-                  padding: EdgeInsets.all(10),
-                  child: TextField(
-                    style: TextStyle(color: Colors.white),
-                    controller: FnameController,
-                    decoration: InputDecoration(
-                      border: OutlineInputBorder(),
-                      labelText: 'First Name',
-                    ),
-                  ),
-                ),
-                Container(
                   padding: EdgeInsets.fromLTRB(10, 10, 10, 0),
                   child: TextField(
                     style: TextStyle(color: Colors.white),
-                    obscureText: true,
-                    controller: LnameController,
+                    controller: _usernamecontroller,
                     decoration: InputDecoration(
-                      border: OutlineInputBorder(),
-                      labelText: 'Last Name',
-                    ),
-                  ),
-                ),
-                Container(
-                  padding: EdgeInsets.all(10),
-                  child: TextField(
-                    style: TextStyle(color: Colors.white),
-                    controller: nameController,
-                    decoration: InputDecoration(
-                      border: OutlineInputBorder(),
-                      labelText: 'User Name',
-                    ),
-                  ),
-                ),
-                Container(
-                  padding: EdgeInsets.fromLTRB(10, 10, 10, 0),
-                  child: TextField(
-                    style: TextStyle(color: Colors.white),
-                    obscureText: true,
-                    controller: passwordController,
-                    decoration: InputDecoration(
-                      border: OutlineInputBorder(),
+                      fillColor: Colors.white,
+                      focusedBorder: OutlineInputBorder(
+                        borderSide:
+                            const BorderSide(color: Colors.black, width: 1.0),
+                        borderRadius: BorderRadius.circular(25.0),
+                      ),
                       labelText: 'Password',
+                      labelStyle: TextStyle(color: Colors.black),
                     ),
                   ),
                 ),
                 Container(
                   padding: EdgeInsets.all(10),
                   child: TextField(
+                    keyboardType: TextInputType.emailAddress,
                     style: TextStyle(color: Colors.white),
-                    controller: RpasswordController,
+                    controller: _emailController,
                     decoration: InputDecoration(
-                      border: OutlineInputBorder(),
-                      labelText: 'Confirm Password',
+                      fillColor: Colors.white,
+                      focusedBorder: OutlineInputBorder(
+                        borderSide:
+                            const BorderSide(color: Colors.black, width: 1.0),
+                        borderRadius: BorderRadius.circular(25.0),
+                      ),
+                      labelText: 'Password',
+                      labelStyle: TextStyle(color: Colors.black),
                     ),
                   ),
                 ),
                 Container(
+                  padding: EdgeInsets.fromLTRB(10, 10, 10, 0),
+                  child: TextField(
+                    style: TextStyle(color: Colors.white),
+                    obscureText: true,
+                    controller: _passwordController,
+                    decoration: InputDecoration(
+                      fillColor: Colors.white,
+                      focusedBorder: OutlineInputBorder(
+                        borderSide:
+                            const BorderSide(color: Colors.black, width: 1.0),
+                        borderRadius: BorderRadius.circular(25.0),
+                      ),
+                      labelText: 'Password',
+                      labelStyle: TextStyle(color: Colors.black),
+                    ),
+                  ),
+                ),
+                SizedBox(height: 10),
+                Container(
+                    width: 90,
                     height: 50,
-                    padding: EdgeInsets.fromLTRB(120, 0, 120, 0),
-                    child: RaisedButton(
-                      textColor: Colors.white,
-                      color: Colors.blue,
+                    padding: EdgeInsets.fromLTRB(90, 0, 90, 0),
+                    child: ElevatedButton(
+                      style: ButtonStyle(
+                          shape:
+                              MaterialStateProperty.all<RoundedRectangleBorder>(
+                                  RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(18.0),
+                                      side: BorderSide(color: Colors.blue)))),
                       child: Text(
                         'Register',
                         style: TextStyle(
                             fontSize: 20, fontWeight: FontWeight.bold),
                       ),
                       onPressed: () {
-                        print(nameController.text);
-                        print(passwordController.text);
+                        FirebaseAuth.instance
+                            .createUserWithEmailAndPassword(
+                                email: _emailController.text,
+                                password: _passwordController.text)
+                            .then((value) {
+                          print("created");
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => MyApp()),
+                          );
+                        }).onError((error, stackTrace) {
+                          print("error: ${error.toString()}");
+                        });
+
+                        print(_usernamecontroller.text);
+                        print(_passwordController.text);
                       },
                     )),
                 Container(
                     child: Row(
                   children: <Widget>[
-                    Text('Done with creating account!'),
+                    Text('Already have an account!'),
                     FlatButton(
                       textColor: Colors.blue,
                       child: Text(

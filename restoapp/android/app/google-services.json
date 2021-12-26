@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "765010830546",
+    "project_id": "rwanda-restaurants",
+    "storage_bucket": "rwanda-restaurants.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:765010830546:android:4b71fd3d49a5fb63be790b",
+        "android_client_info": {
+          "package_name": "com.example.restoapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "765010830546-gqcprnvsjid124n1lh02igojbniioal3.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAC7iDJ7jokyeRYx54j1RO18UQ2y4OooPA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "765010830546-gqcprnvsjid124n1lh02igojbniioal3.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

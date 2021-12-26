@@ -40,10 +40,10 @@ class Body extends StatelessWidget {
             width: 10,
           ),
           Container(
-            width: size.height * 0.5,
-            padding: EdgeInsets.only(bottom: 50),
+            width: size.height * 0.6,
+            padding: EdgeInsets.fromLTRB(7, 10, 1, 80),
             child: Text(
-              "you are most welcome to this app where you can find restaurant",
+              "you are most welcome to this app where you can find a list of the restaurants according to your location (District or Sector)",
               style: TextStyle(
                 fontWeight: FontWeight.normal,
                 fontSize: 12,
@@ -59,7 +59,7 @@ class Body extends StatelessWidget {
           Row(
             children: [
               Container(
-                padding: EdgeInsets.only(left: 100),
+                padding: EdgeInsets.only(left: 50),
                 child: Text(
                   "ABOUT US",
                   style:
@@ -67,7 +67,7 @@ class Body extends StatelessWidget {
                 ),
               ),
               SizedBox(
-                width: 150,
+                width: 110,
               ),
               Container(
                 child: Text(
@@ -83,8 +83,8 @@ class Body extends StatelessWidget {
           Row(
             children: [
               Container(
-                width: 220,
-                padding: EdgeInsets.only(left: 50),
+                width: 160,
+                padding: EdgeInsets.only(left: 30),
                 child: Text(
                   "we intended to give you option of navigating through all restaurant",
                   style: TextStyle(color: fontcolor, fontSize: 12),
@@ -94,7 +94,7 @@ class Body extends StatelessWidget {
                 width: 50,
               ),
               Container(
-                width: 200,
+                width: 150,
                 child: Text(
                   "we intended to give you option of navigating through all restaurant",
                   style: TextStyle(color: fontcolor, fontSize: 12),
