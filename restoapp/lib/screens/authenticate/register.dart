@@ -11,9 +11,9 @@ class Register extends StatefulWidget {
 
 class _State extends State<Register> {
   //String _email;
-  TextEditingController _usernamecontroller = TextEditingController();
-  TextEditingController _emailController = TextEditingController();
-  TextEditingController _passwordController = TextEditingController();
+  TextEditingController usernamecontroller = TextEditingController();
+  TextEditingController emailController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -47,7 +47,7 @@ class _State extends State<Register> {
                   padding: EdgeInsets.fromLTRB(10, 10, 10, 0),
                   child: TextField(
                     style: TextStyle(color: Colors.white),
-                    controller: _usernamecontroller,
+                    controller: usernamecontroller,
                     decoration: InputDecoration(
                       fillColor: Colors.white,
                       focusedBorder: OutlineInputBorder(
@@ -65,7 +65,7 @@ class _State extends State<Register> {
                   child: TextField(
                     keyboardType: TextInputType.emailAddress,
                     style: TextStyle(color: Colors.white),
-                    controller: _emailController,
+                    controller: emailController,
                     decoration: InputDecoration(
                       fillColor: Colors.white,
                       focusedBorder: OutlineInputBorder(
@@ -83,7 +83,7 @@ class _State extends State<Register> {
                   child: TextField(
                     style: TextStyle(color: Colors.white),
                     obscureText: true,
-                    controller: _passwordController,
+                    controller: passwordController,
                     decoration: InputDecoration(
                       fillColor: Colors.white,
                       focusedBorder: OutlineInputBorder(
@@ -116,8 +116,8 @@ class _State extends State<Register> {
                       onPressed: () {
                         FirebaseAuth.instance
                             .createUserWithEmailAndPassword(
-                                email: _emailController.text,
-                                password: _passwordController.text)
+                                email: emailController.text,
+                                password: passwordController.text)
                             .then((value) {
                           print("created");
                           Navigator.push(
@@ -128,8 +128,8 @@ class _State extends State<Register> {
                           print("error: ${error.toString()}");
                         });
 
-                        print(_usernamecontroller.text);
-                        print(_passwordController.text);
+                        print(usernamecontroller.text);
+                        print(passwordController.text);
                       },
                     )),
                 Container(

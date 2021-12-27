@@ -6,3 +6,4 @@ const fontcolor = Colors.white70;
 const buttonbackcolor = Color(0XFFA70000);
 const buttonfontcolor = Colors.black;
 const titlecolor = Colors.white;
+const appbarcolor = Colors.black;

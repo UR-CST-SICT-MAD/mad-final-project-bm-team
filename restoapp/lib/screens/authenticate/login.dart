@@ -10,9 +10,18 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
+  // form key
+  final _formKey = GlobalKey<FormState>();
+
+  //Editing Controller
+  final TextEditingController emailcontroller = new TextEditingController();
+  final TextEditingController passwordController = new TextEditingController();
+
+// Firebase
   final auth = FirebaseAuth.instance;
-  String _emailcontroller = TextEditingController().text;
-  String _passwordController = TextEditingController().text;
+
+  // string for displying error message
+  String? errorMessage;
 
   @override
   Widget build(BuildContext context) {
@@ -27,6 +36,7 @@ class _MyAppState extends State<MyApp> {
             padding: EdgeInsets.all(10),
             child: ListView(
               children: <Widget>[
+                //Login icon
                 Container(
                     alignment: Alignment.center,
                     padding: EdgeInsets.all(10),
@@ -35,6 +45,8 @@ class _MyAppState extends State<MyApp> {
                       height: 80,
                       width: 80,
                     )),
+
+                //signin message
                 Container(
                     alignment: Alignment.center,
                     padding: EdgeInsets.all(10),
@@ -42,12 +54,14 @@ class _MyAppState extends State<MyApp> {
                       'Sign in',
                       style: TextStyle(fontSize: 25),
                     )),
+
+                //Email TextForm
                 Container(
                   padding: EdgeInsets.all(10),
-                  child: TextField(
+                  child: TextFormField(
                     keyboardType: TextInputType.emailAddress,
                     style: TextStyle(color: Colors.white),
-                    // controller: _emailcontroller,
+                    controller: emailcontroller,
                     decoration: InputDecoration(
                       fillColor: Colors.white,
                       focusedBorder: OutlineInputBorder(
@@ -55,12 +69,9 @@ class _MyAppState extends State<MyApp> {
                             const BorderSide(color: Colors.black, width: 1.0),
                         borderRadius: BorderRadius.circular(25.0),
                       ),
-                      labelText: 'Password',
+                      labelText: 'Email',
                       labelStyle: TextStyle(color: Colors.black),
                     ),
-                    onChanged: (value) {
-                      _emailcontroller = value.trim();
-                    },
                   ),
                 ),
                 Container(
@@ -68,7 +79,7 @@ class _MyAppState extends State<MyApp> {
                   child: TextField(
                     style: TextStyle(color: Colors.white),
                     obscureText: true,
-                    // controller: _passwordController,
+                    controller: passwordController,
                     decoration: InputDecoration(
                       fillColor: Colors.white,
                       focusedBorder: OutlineInputBorder(
@@ -79,9 +90,6 @@ class _MyAppState extends State<MyApp> {
                       labelText: 'Password',
                       labelStyle: TextStyle(color: Colors.black),
                     ),
-                    onChanged: (value) {
-                      _passwordController = value.trim();
-                    },
                   ),
                 ),
                 FlatButton(
@@ -108,10 +116,10 @@ class _MyAppState extends State<MyApp> {
                       ),
                       onPressed: () {
                         auth.signInWithEmailAndPassword(
-                            email: _emailcontroller,
-                            password: _passwordController);
-                        print(_emailcontroller);
-                        print(_passwordController);
+                            email: emailcontroller.text,
+                            password: passwordController.text);
+                        print(emailcontroller);
+                        print(passwordController);
                       },
                     )),
                 Container(
