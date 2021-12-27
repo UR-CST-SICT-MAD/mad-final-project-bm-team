@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:restoapp/colors.dart';
 import 'package:restoapp/screens/wrapper.dart';
 
-void main() async {
+Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   runApp(const MyApp());
