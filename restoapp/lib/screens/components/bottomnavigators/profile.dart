@@ -4,17 +4,17 @@ import 'package:flutter/material.dart';
 import 'package:restoapp/colors.dart';
 import 'package:restoapp/main.dart';
 import 'package:restoapp/models/user.dart';
-import 'package:restoapp/screens/components/bottomnavigators/profile.dart';
+import 'package:restoapp/screens/dataaccess/districts.dart';
 import 'package:restoapp/screens/dataaccess/sectors.dart';
 
-class Districts extends StatefulWidget {
-  const Districts({Key? key}) : super(key: key);
+class Profile extends StatefulWidget {
+  const Profile({Key? key}) : super(key: key);
 
   @override
   _DistrictsState createState() => _DistrictsState();
 }
 
-class _DistrictsState extends State<Districts> {
+class _DistrictsState extends State<Profile> {
 //getting information from current user
   User? user = FirebaseAuth.instance.currentUser;
   UserModel loggedInUser = UserModel();
@@ -101,51 +101,46 @@ class _DistrictsState extends State<Districts> {
         ],
       ),
       body: Padding(
-        padding: EdgeInsets.all(10),
+        padding: EdgeInsets.fromLTRB(50, 200, 50, 0),
         child: ListView.separated(
-          itemCount: districts.length,
+          itemCount: 1,
           itemBuilder: (BuildContext context, int index) {
             return Card(
-                color: backgroundcolor,
+                color: Colors.white,
                 elevation: 100,
                 shadowColor: Colors.black,
                 child: Padding(
                     padding: const EdgeInsets.all(16.0),
-                    child: ListTile(
-                      autofocus: true,
-                      leading: Image(
-                        image: AssetImage('images/map.jpg'),
-                        height: 30,
-                        width: 30,
-                      ),
-                      title: Text('${districts[index]}',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 18,
-                          )),
-                      trailing: ElevatedButton.icon(
-                          onPressed: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => Sectors()));
-                          },
-                          label: Text("View Sectors"),
-                          icon: Image.asset(
-                            'images/iconnext.jpg',
-                            height: 20,
-                            width: 20,
-                          ), //icon data for elevated button
-
-                          style: ButtonStyle(
-                              backgroundColor:
-                                  MaterialStateProperty.all(buttonbackcolor),
-                              textStyle: MaterialStateProperty.all(
-                                TextStyle(fontSize: 15, color: buttonfontcolor),
-                              )
-                              //label text
-                              )),
-                    )));
+                    child: Center(
+                        child: Column(
+                      children: [
+                        Container(
+                          // padding: EdgeInsets.fromLTRB(0, 200, 0, 0),
+                          child: Text(
+                            "Your Personal Information",
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold, fontSize: 20),
+                          ),
+                        ),
+                        SizedBox(height: 10),
+                        Container(
+                          child: Text("First Name: ${loggedInUser.secondname}"),
+                        ),
+                        SizedBox(height: 7),
+                        Container(
+                          child: Text("Last Name: ${loggedInUser.firstname}"),
+                        ),
+                        SizedBox(height: 7),
+                        Container(
+                          child: Text("User Name: ${loggedInUser.username}"),
+                        ),
+                        SizedBox(height: 7),
+                        Container(
+                          child: Text("Email: ${loggedInUser.email}"),
+                        ),
+                        SizedBox(height: 7),
+                      ],
+                    ))));
           },
           separatorBuilder: (BuildContext context, int index) => const Divider(
             height: 0,
@@ -167,14 +162,9 @@ class _DistrictsState extends State<Districts> {
             label: 'Home',
           ),
           BottomNavigationBarItem(
-            icon: GestureDetector
-            (
-              onTap: () => Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => Profile())),
-              child: Icon(
-                Icons.account_circle_outlined,
-                color: Colors.black,
-              ),
+            icon: Icon(
+              Icons.account_circle_outlined,
+              color: Colors.black,
             ),
             label: '${loggedInUser.username}',
           ),
