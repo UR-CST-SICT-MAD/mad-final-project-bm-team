@@ -166,7 +166,7 @@ class _DistrictsState extends State<Districts> {
               Icons.account_circle_outlined,
               color: Colors.black,
             ),
-            label: '${loggedInUser.firstname}',
+            label: '${loggedInUser.username}',
           ),
         ],
       ),

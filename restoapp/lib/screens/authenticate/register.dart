@@ -24,6 +24,7 @@ class _RegisterState extends State<Register> {
   // editing Controller
   final firstNameEditingController = new TextEditingController();
   final secondNameEditingController = new TextEditingController();
+  final userNameEditingController = new TextEditingController();
   final emailEditingController = new TextEditingController();
   final passwordEditingController = new TextEditingController();
   final confirmPasswordEditingController = new TextEditingController();
@@ -126,7 +127,39 @@ class _RegisterState extends State<Register> {
                               const BorderSide(color: Colors.black, width: 1.0),
                           borderRadius: BorderRadius.circular(25.0),
                         ),
-                        labelText: 'Second name',
+                        labelText: 'Second Name',
+                        labelStyle: TextStyle(color: Colors.black),
+                      ),
+                    ),
+                  ),
+
+                  //username container
+                  Container(
+                    padding: EdgeInsets.fromLTRB(10, 10, 10, 0),
+                    child: TextFormField(
+                      autofocus: false,
+                      keyboardType: TextInputType.name,
+                      style: TextStyle(color: Colors.white),
+                      controller: userNameEditingController,
+                      validator: (value) {
+                        if (value!.isEmpty) {
+                          return ("User name field can not be empty");
+                        }
+                        return null;
+                      },
+                      onSaved: (value) {
+                        secondNameEditingController.text = value!;
+                      },
+                      textInputAction: TextInputAction.next,
+                      decoration: InputDecoration(
+                        prefixIcon: Icon(Icons.account_circle_outlined),
+                        fillColor: Colors.white,
+                        focusedBorder: OutlineInputBorder(
+                          borderSide:
+                              const BorderSide(color: Colors.black, width: 1.0),
+                          borderRadius: BorderRadius.circular(25.0),
+                        ),
+                        labelText: 'User Name',
                         labelStyle: TextStyle(color: Colors.black),
                       ),
                     ),
@@ -232,7 +265,7 @@ class _RegisterState extends State<Register> {
                               const BorderSide(color: Colors.black, width: 1.0),
                           borderRadius: BorderRadius.circular(25.0),
                         ),
-                        labelText: 'Password',
+                        labelText: 'Confirm Password',
                         labelStyle: TextStyle(color: Colors.black),
                       ),
                     ),
@@ -343,6 +376,7 @@ class _RegisterState extends State<Register> {
     userModel.uid = user.uid;
     userModel.firstname = firstNameEditingController.text;
     userModel.secondname = secondNameEditingController.text;
+    userModel.username = userNameEditingController.text;
 
     await firebaseFirestore
         .collection("users")
