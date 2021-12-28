@@ -1,5 +1,9 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:restoapp/colors.dart';
+import 'package:restoapp/main.dart';
+import 'package:restoapp/models/user.dart';
 import 'package:restoapp/screens/dataaccess/sectors.dart';
 
 class Districts extends StatefulWidget {
@@ -10,6 +14,23 @@ class Districts extends StatefulWidget {
 }
 
 class _DistrictsState extends State<Districts> {
+//getting information from current user
+  User? user = FirebaseAuth.instance.currentUser;
+  UserModel loggedInUser = UserModel();
+
+  @override
+  void initState() {
+    super.initState();
+    FirebaseFirestore.instance
+        .collection("users")
+        .doc(user!.uid)
+        .get()
+        .then((value) {
+      this.loggedInUser = UserModel.fromMap(value.data());
+      setState(() {});
+    });
+  }
+
   final List<String> districts = <String>['Rwamagana', 'Musanze', 'Muhanga'];
   Icon customIcon = const Icon(Icons.search);
   Widget customSearchBar = Text('Districts of Rwanda');
@@ -31,6 +52,8 @@ class _DistrictsState extends State<Districts> {
               padding: EdgeInsets.only(right: 20.0),
               child: GestureDetector(
                   onTap: () {},
+
+                  //TODO: searching district displayed on screen
                   child: IconButton(
                     onPressed: () {
                       setState(() {
@@ -69,8 +92,10 @@ class _DistrictsState extends State<Districts> {
           Padding(
               padding: EdgeInsets.only(right: 20.0),
               child: GestureDetector(
-                onTap: () {},
-                child: Icon(Icons.more_vert),
+                onTapDown: (TapDownDetails details) {
+                  _showPopupMenu(details.globalPosition);
+                },
+                child: Container(child: Icon(Icons.more_vert)),
               )),
         ],
       ),
@@ -128,7 +153,7 @@ class _DistrictsState extends State<Districts> {
       ),
       bottomNavigationBar: BottomNavigationBar(
         backgroundColor: Colors.black12,
-        items: const <BottomNavigationBarItem>[
+        items: [
           BottomNavigationBarItem(
             icon: Icon(
               Icons.home,
@@ -141,10 +166,53 @@ class _DistrictsState extends State<Districts> {
               Icons.account_circle_outlined,
               color: Colors.black,
             ),
-            label: 'Logout',
+            label: '${loggedInUser.firstname}',
           ),
         ],
       ),
     );
+  }
+
+  void _showPopupMenu(Offset offset) async {
+    double left = offset.dx;
+    double top = offset.dy;
+    await showMenu(
+      context: context,
+      position: RelativeRect.fromLTRB(100, 100, 0, 100),
+      items: [
+        PopupMenuItem(
+          value: 1,
+          child: Text("View"),
+        ),
+        PopupMenuItem(
+          value: 2,
+          child: Text("Edit"),
+        ),
+        PopupMenuItem(
+          onTap: () {
+            logout(context);
+          },
+          value: 3,
+          child: Text("Delete"),
+        ),
+        PopupMenuItem(
+          value: 3,
+          child: Text("Logout"),
+          onTap: () => logout(context),
+        ),
+      ],
+      elevation: 8.0,
+    ).then((value) {
+// NOTE: even you didnt select item this method will be called with null of value so you should call your call back with checking if value is not null
+
+      if (value != null) print(value);
+    });
+  }
+
+  // the logout function
+  Future<void> logout(BuildContext context) async {
+    await FirebaseAuth.instance.signOut();
+    Navigator.of(context)
+        .pushReplacement(MaterialPageRoute(builder: (context) => MyApp()));
   }
 }

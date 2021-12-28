@@ -38,6 +38,8 @@ class _MyAppState extends State<MyApp> {
         ),
         body: Padding(
             padding: EdgeInsets.all(10),
+
+            //starting point of the form
             child: Form(
               key: _formKey,
               child: ListView(
@@ -73,6 +75,7 @@ class _MyAppState extends State<MyApp> {
                         if (value!.isEmpty) {
                           return ("Please Enter Your Email");
                         }
+
                         // reg expression for email validation
                         if (!RegExp("^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+.[a-z]")
                             .hasMatch(value)) {
@@ -188,14 +191,14 @@ class _MyAppState extends State<MyApp> {
             )));
   }
 
-  // login function
+  // function for login
   void signIn(String email, String password) async {
     if (_formKey.currentState!.validate()) {
       try {
         await _auth
             .signInWithEmailAndPassword(email: email, password: password)
             .then((uid) => {
-                  Fluttertoast.showToast(msg: "you are now logged in"),
+                  Fluttertoast.showToast(msg: "you are now logged in the app"),
                   Navigator.of(context).pushReplacement(
                       MaterialPageRoute(builder: (context) => Districts())),
                 });
@@ -209,10 +212,10 @@ class _MyAppState extends State<MyApp> {
             errorMessage = "Your password is wrong.";
             break;
           case "user-not-found":
-            errorMessage = "User with this email doesn't exist.";
+            errorMessage = "This user doesn't exist.";
             break;
           case "user-disabled":
-            errorMessage = "User with this email has been disabled.";
+            errorMessage = "This user has been disabled.";
             break;
           case "too-many-requests":
             errorMessage = "Too many requests";
