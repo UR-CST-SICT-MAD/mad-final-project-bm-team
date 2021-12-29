@@ -1,3 +1,6 @@
+import 'dart:convert';
+import 'dart:io';
+import 'package:flutter/src/rendering/box.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -5,7 +8,9 @@ import 'package:restoapp/colors.dart';
 import 'package:restoapp/main.dart';
 import 'package:restoapp/models/user.dart';
 import 'package:restoapp/screens/components/bottomnavigators/profile.dart';
+import 'package:restoapp/screens/dataaccess/apiaccess.dart';
 import 'package:restoapp/screens/dataaccess/sectors.dart';
+import 'package:http/http.dart' as http;
 
 class Districts extends StatefulWidget {
   const Districts({Key? key}) : super(key: key);
@@ -15,6 +20,43 @@ class Districts extends StatefulWidget {
 }
 
 class _DistrictsState extends State<Districts> {
+//function to get data from API
+
+  // final String url = "https://rw-restaurants-api.herokuapp.com/districts/";
+  // List data;
+
+  // @override
+  // void initState() {
+  //   // super.initState();
+  //   this.getJesonData();
+  // }
+
+  // FU
+  //using the second resources
+
+//using loop for accessing list of the items from api
+  // getDistricts() async {
+  //   final response = await http
+  //       .get(Uri.parse('https://rw-restaurants-api.herokuapp.com/districts/'),
+  //           // Send authorization headers to the backend.
+  //           headers: {
+  //         HttpHeaders.authorizationHeader:
+  //             'Token 94eab566894d7b1ac92817b63efb744c60fc4baa'
+  //       });
+  //   var jsonData = jsonDecode(response.body);
+
+  //   List<District> districts = [];
+
+  //   for (var u in jsonData) {
+  //     District district = District(u["name"]);
+
+  //     //adding value into a list
+  //     districts.add(district);
+  //   }
+  //   print(districts.length);
+  //   return districts;
+  // }
+
 //getting information from current user
   User? user = FirebaseAuth.instance.currentUser;
   UserModel loggedInUser = UserModel();
@@ -100,58 +142,7 @@ class _DistrictsState extends State<Districts> {
               )),
         ],
       ),
-      body: Padding(
-        padding: EdgeInsets.all(10),
-        child: ListView.separated(
-          itemCount: districts.length,
-          itemBuilder: (BuildContext context, int index) {
-            return Card(
-                color: backgroundcolor,
-                elevation: 100,
-                shadowColor: Colors.black,
-                child: Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: ListTile(
-                      autofocus: true,
-                      leading: Image(
-                        image: AssetImage('images/map.jpg'),
-                        height: 30,
-                        width: 30,
-                      ),
-                      title: Text('${districts[index]}',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 18,
-                          )),
-                      trailing: ElevatedButton.icon(
-                          onPressed: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => Sectors()));
-                          },
-                          label: Text("View Sectors"),
-                          icon: Image.asset(
-                            'images/iconnext.jpg',
-                            height: 20,
-                            width: 20,
-                          ), //icon data for elevated button
-
-                          style: ButtonStyle(
-                              backgroundColor:
-                                  MaterialStateProperty.all(buttonbackcolor),
-                              textStyle: MaterialStateProperty.all(
-                                TextStyle(fontSize: 15, color: buttonfontcolor),
-                              )
-                              //label text
-                              )),
-                    )));
-          },
-          separatorBuilder: (BuildContext context, int index) => const Divider(
-            height: 0,
-          ),
-        ),
-      ),
+      body: ApiDistrict(),
       bottomNavigationBar: BottomNavigationBar(
         backgroundColor: Colors.black12,
         items: [
@@ -167,10 +158,9 @@ class _DistrictsState extends State<Districts> {
             label: 'Home',
           ),
           BottomNavigationBarItem(
-            icon: GestureDetector
-            (
-              onTap: () => Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => Profile())),
+            icon: GestureDetector(
+              onTap: () => Navigator.push(
+                  context, MaterialPageRoute(builder: (context) => Profile())),
               child: Icon(
                 Icons.account_circle_outlined,
                 color: Colors.black,
@@ -226,3 +216,10 @@ class _DistrictsState extends State<Districts> {
         .pushReplacement(MaterialPageRoute(builder: (context) => MyApp()));
   }
 }
+
+// class for fetching all the districts from the API
+
+// class District {
+//   final String name;
+//   District(this.name);
+// }

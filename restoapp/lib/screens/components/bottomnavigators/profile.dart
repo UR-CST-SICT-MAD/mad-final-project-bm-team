@@ -52,47 +52,6 @@ class _DistrictsState extends State<Profile> {
           Padding(
               padding: EdgeInsets.only(right: 20.0),
               child: GestureDetector(
-                  onTap: () {},
-
-                  //TODO: searching district displayed on screen
-                  child: IconButton(
-                    onPressed: () {
-                      setState(() {
-                        if (customIcon.icon == Icons.search) {
-                          // Perform set of instructions.
-                          customIcon = const Icon(Icons.cancel);
-                          customSearchBar = const ListTile(
-                            leading: Icon(
-                              Icons.search,
-                              color: Colors.white,
-                              size: 28,
-                            ),
-                            title: TextField(
-                              decoration: InputDecoration(
-                                hintText: 'Search a district...',
-                                hintStyle: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 18,
-                                  fontStyle: FontStyle.italic,
-                                ),
-                                border: InputBorder.none,
-                              ),
-                              style: TextStyle(
-                                color: Colors.white,
-                              ),
-                            ),
-                          );
-                        } else {
-                          customIcon = const Icon(Icons.search);
-                          customSearchBar = const Text('Districts of Rwanda');
-                        }
-                      });
-                    },
-                    icon: customIcon,
-                  ))),
-          Padding(
-              padding: EdgeInsets.only(right: 20.0),
-              child: GestureDetector(
                 onTapDown: (TapDownDetails details) {
                   _showPopupMenu(details.globalPosition);
                 },
