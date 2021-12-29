@@ -76,7 +76,7 @@
 //   }
 // }
 
-// second choice
+// second choice: Fetching all Districts
 
 import 'dart:convert';
 import 'dart:async';
@@ -84,6 +84,8 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:restoapp/colors.dart';
+import 'package:restoapp/screens/dataaccess/dishes.dart';
+import 'package:restoapp/screens/dataaccess/restaurants.dart';
 import 'package:restoapp/screens/dataaccess/sectors.dart';
 
 List<District> postFromJson(String str) =>
@@ -124,6 +126,8 @@ Future<List<District>> fetchDistrict() async {
 }
 
 class ApiDistrict extends StatefulWidget {
+  const ApiDistrict({Key? key}) : super(key: key);
+
   @override
   _MyAppState createState() => _MyAppState();
 }
@@ -151,14 +155,6 @@ class _MyAppState extends State<ApiDistrict> {
                 padding: EdgeInsets.fromLTRB(10, 5, 10, 5),
                 child: Container(
                   height: 60,
-                  // autofocus: true,
-                  // // leading: Image(
-                  // //   image: AssetImage('images/map.jpg'),
-                  // //   height: 30,
-                  // //   width: 30,
-                  // // ),
-                  // title:
-
                   color: backgroundcolor,
                   child: Row(
                     children: [
@@ -214,34 +210,272 @@ class _MyAppState extends State<ApiDistrict> {
                   ),
                 ),
               ),
+            );
+          } else if (snapshot.hasError) {
+            return Text('${snapshot.error}');
+          }
+          return const CircularProgressIndicator();
+        });
+  }
+}
 
-              // trailing: ElevatedButton.icon(
-              //   onPressed: () {
-              //     // getDistricts();
+// Fetching sectors
 
-              //     Navigator.push(
-              //         context,
-              //         MaterialPageRoute(
-              //             builder: (context) => Sectors()));
-              //   },
-              //   label: Text("View Sectors"),
-              //   icon: Image.asset(
-              //     'images/iconnext.jpg',
-              //     height: 20,
-              //     width: 20,
-              //   ), //icon data for elevated button
+List<Sector> sectorFromJson(String str) =>
+    List<Sector>.from(json.decode(str).map((x) => Sector.fromMap(x)));
 
-              //   style: ButtonStyle(
-              //       // backgroundColor:
-              //       //     MaterialStateProperty.all(buttonbackcolor),
-              //       // textStyle: MaterialStateProperty.all(
-              //       //   TextStyle(fontSize: 15, color: buttonfontcolor),
-              //       // )
-              //       // //label text
-              //       // )
-              //       // ),
-              //       ),
-              // )
+class Sector {
+  Sector({
+    required this.name,
+  });
+
+  String name;
+
+  factory Sector.fromMap(Map<String, dynamic> json) => Sector(
+        name: json["Name"],
+      );
+}
+
+// state class
+
+Future<List<Sector>> fetchSector() async {
+  final response = await http.get(
+      Uri.parse(
+          'https://rw-restaurants-api.herokuapp.com/sectors/'), //accessing restaurant api
+
+      // Sending authorization headers to the backend.
+      headers: {
+        HttpHeaders.authorizationHeader:
+            'Token 94eab566894d7b1ac92817b63efb744c60fc4baa',
+      });
+
+  if (response.statusCode == 200) {
+    final parsed = json.decode(response.body).cast<Map<String, dynamic>>();
+
+    return parsed.map<Sector>((json) => Sector.fromMap(json)).toList();
+  } else {
+    throw Exception('Failed to load Districts');
+  }
+}
+
+class ApiSector extends StatefulWidget {
+  const ApiSector({Key? key}) : super(key: key);
+
+  @override
+  _SectorState createState() => _SectorState();
+}
+
+class _SectorState extends State<ApiSector> {
+  late Future<List<Sector>> futureSector;
+
+  get listTile => null;
+
+  @override
+  void initState() {
+    super.initState();
+    futureSector = fetchSector();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return FutureBuilder<List<Sector>>(
+        future: futureSector,
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            return ListView.builder(
+              itemCount: snapshot.data!.length,
+              itemBuilder: (_, index) => Padding(
+                padding: EdgeInsets.fromLTRB(10, 5, 10, 5),
+                child: Container(
+                  height: 60,
+                  color: backgroundcolor,
+                  child: Row(
+                    children: [
+                      Container(
+                        child: Image(
+                          image: AssetImage('images/map.jpg'),
+                          height: 30,
+                          width: 30,
+                        ),
+                      ),
+                      SizedBox(width: 3),
+                      Container(
+                        width: 100,
+                        child: Text(
+                          "${snapshot.data![index].name}",
+                          style: TextStyle(
+                            fontSize: 18.0,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                      SizedBox(
+                        width: 10,
+                      ),
+                      Container(
+                        alignment: Alignment.centerRight,
+                        padding: EdgeInsets.only(left: 100),
+                        child: ElevatedButton.icon(
+                            onPressed: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => Restaurants()));
+                            },
+                            label: Text("Restaurant"),
+                            icon: Image.asset(
+                              'images/iconnext.jpg',
+                              height: 20,
+                              width: 20,
+                            ), //icon data for elevated button
+
+                            style: ButtonStyle(
+                                backgroundColor:
+                                    MaterialStateProperty.all(buttonbackcolor),
+                                textStyle: MaterialStateProperty.all(
+                                  TextStyle(
+                                      fontSize: 15, color: buttonfontcolor),
+                                )
+                                //label text
+                                )),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            );
+          } else if (snapshot.hasError) {
+            return Text('${snapshot.error}');
+          }
+          return const CircularProgressIndicator();
+        });
+  }
+}
+
+//Fetching all Restaurants
+
+List<Restaurant> restaurantFromJson(String str) =>
+    List<Restaurant>.from(json.decode(str).map((x) => Restaurant.fromMap(x)));
+
+class Restaurant {
+  Restaurant({
+    required this.name,
+  });
+
+  String name;
+
+  factory Restaurant.fromMap(Map<String, dynamic> json) => Restaurant(
+        name: json["Name"],
+      );
+}
+
+// state class
+
+Future<List<Restaurant>> fetchRestaurant() async {
+  final response = await http.get(
+      Uri.parse(
+          'https://rw-restaurants-api.herokuapp.com/restaurants/'), //accessing restaurant api
+
+      // Sending authorization headers to the backend.
+      headers: {
+        HttpHeaders.authorizationHeader:
+            'Token 94eab566894d7b1ac92817b63efb744c60fc4baa',
+      });
+
+  if (response.statusCode == 200) {
+    final parsed = json.decode(response.body).cast<Map<String, dynamic>>();
+
+    return parsed.map<Restaurant>((json) => Restaurant.fromMap(json)).toList();
+  } else {
+    throw Exception('Failed to load Restaurant');
+  }
+}
+
+class ApiRestaurant extends StatefulWidget {
+  const ApiRestaurant({Key? key}) : super(key: key);
+
+  @override
+  _RestaurantState createState() => _RestaurantState();
+}
+
+class _RestaurantState extends State<ApiRestaurant> {
+  late Future<List<Restaurant>> futureRestaurant;
+
+  get listTile => null;
+
+  @override
+  void initState() {
+    super.initState();
+    futureRestaurant = fetchRestaurant();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return FutureBuilder<List<Restaurant>>(
+        future: futureRestaurant,
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            return ListView.builder(
+              itemCount: snapshot.data!.length,
+              itemBuilder: (_, index) => Padding(
+                padding: EdgeInsets.fromLTRB(10, 5, 10, 5),
+                child: Container(
+                  height: 60,
+                  color: backgroundcolor,
+                  child: Row(
+                    children: [
+                      Container(
+                        child: Image(
+                          image: AssetImage('images/restaurant.png'),
+                          height: 30,
+                          width: 30,
+                        ),
+                      ),
+                      SizedBox(width: 3),
+                      Container(
+                        width: 100,
+                        child: Text(
+                          "${snapshot.data![index].name}",
+                          style: TextStyle(
+                            fontSize: 18.0,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                      SizedBox(
+                        width: 10,
+                      ),
+                      Container(
+                        alignment: Alignment.centerRight,
+                        padding: EdgeInsets.only(left: 100),
+                        child: ElevatedButton.icon(
+                            onPressed: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => Dishes()));
+                            },
+                            label: Text("View Dishes"),
+                            icon: Image.asset(
+                              'images/iconnext.jpg',
+                              height: 20,
+                              width: 20,
+                            ), //icon data for elevated button
+
+                            style: ButtonStyle(
+                                backgroundColor:
+                                    MaterialStateProperty.all(buttonbackcolor),
+                                textStyle: MaterialStateProperty.all(
+                                  TextStyle(
+                                      fontSize: 15, color: buttonfontcolor),
+                                )
+                                //label text
+                                )),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
             );
           } else if (snapshot.hasError) {
             return Text('${snapshot.error}');
