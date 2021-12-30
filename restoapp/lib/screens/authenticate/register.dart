@@ -33,6 +33,7 @@ class _RegisterState extends State<Register> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
+          backgroundColor: Colors.black,
           title: Text(
             'Back',
             style: TextStyle(fontWeight: FontWeight.bold),
@@ -61,8 +62,9 @@ class _RegisterState extends State<Register> {
                       alignment: Alignment.center,
                       padding: EdgeInsets.all(10),
                       child: Text(
-                        'Create Account',
-                        style: TextStyle(fontSize: 25),
+                        'Create Account!',
+                        style: TextStyle(
+                            fontSize: 25, fontWeight: FontWeight.bold),
                       )),
 
                   //Firstname container
@@ -71,7 +73,7 @@ class _RegisterState extends State<Register> {
                     child: TextFormField(
                       autofocus: false,
                       keyboardType: TextInputType.name,
-                      style: TextStyle(color: Colors.white),
+                      style: TextStyle(color: Colors.black),
                       controller: firstNameEditingController,
                       validator: (value) {
                         RegExp regex = new RegExp(r'^.{3,}$');
@@ -139,7 +141,7 @@ class _RegisterState extends State<Register> {
                     child: TextFormField(
                       autofocus: false,
                       keyboardType: TextInputType.name,
-                      style: TextStyle(color: Colors.white),
+                      style: TextStyle(color: Colors.black),
                       controller: userNameEditingController,
                       validator: (value) {
                         if (value!.isEmpty) {
@@ -171,7 +173,7 @@ class _RegisterState extends State<Register> {
                     child: TextFormField(
                       autofocus: false,
                       keyboardType: TextInputType.emailAddress,
-                      style: TextStyle(color: Colors.white),
+                      style: TextStyle(color: Colors.black),
                       controller: emailEditingController,
                       validator: (value) {
                         if (value!.isEmpty) {
@@ -207,7 +209,7 @@ class _RegisterState extends State<Register> {
                     padding: EdgeInsets.fromLTRB(10, 10, 10, 0),
                     child: TextFormField(
                       autofocus: false,
-                      style: TextStyle(color: Colors.white),
+                      style: TextStyle(color: Colors.black),
                       obscureText: true,
                       controller: passwordEditingController,
                       validator: (value) {
@@ -243,7 +245,7 @@ class _RegisterState extends State<Register> {
                     padding: EdgeInsets.fromLTRB(10, 10, 10, 0),
                     child: TextFormField(
                       autofocus: false,
-                      style: TextStyle(color: Colors.white),
+                      style: TextStyle(color: Colors.black),
                       obscureText: true,
                       controller: confirmPasswordEditingController,
                       validator: (value) {

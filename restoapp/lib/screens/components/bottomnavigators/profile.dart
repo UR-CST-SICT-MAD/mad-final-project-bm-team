@@ -34,12 +34,13 @@ class _DistrictsState extends State<Profile> {
 
   final List<String> districts = <String>['Rwamagana', 'Musanze', 'Muhanga'];
   Icon customIcon = const Icon(Icons.search);
-  Widget customSearchBar = Text('Districts of Rwanda');
+  Widget customSearchBar = Text('Profile');
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       // backgroundColor: Colors.black,
       appBar: AppBar(
+        backgroundColor: appbarBackGroundColor,
         title: customSearchBar,
         centerTitle: true,
         leading: GestureDetector(
@@ -111,7 +112,7 @@ class _DistrictsState extends State<Profile> {
         items: [
           BottomNavigationBarItem(
             icon: GestureDetector(
-              onTap: () => Navigator.push(context,
+              onTap: () => Navigator.pop(context,
                   MaterialPageRoute(builder: (context) => Districts())),
               child: Icon(
                 Icons.home,

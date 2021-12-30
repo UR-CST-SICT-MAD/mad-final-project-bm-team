@@ -82,6 +82,7 @@ class _DistrictsState extends State<Districts> {
     return Scaffold(
       // backgroundColor: Colors.black,
       appBar: AppBar(
+        backgroundColor: appbarBackGroundColor,
         title: customSearchBar,
         centerTitle: true,
         leading: GestureDetector(
@@ -144,7 +145,7 @@ class _DistrictsState extends State<Districts> {
       ),
       body: ApiDistrict(),
       bottomNavigationBar: BottomNavigationBar(
-        backgroundColor: Colors.black12,
+        backgroundColor: backgroundcolor,
         items: [
           BottomNavigationBarItem(
             icon: GestureDetector(

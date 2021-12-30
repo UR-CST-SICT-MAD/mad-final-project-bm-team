@@ -3,8 +3,6 @@
 // import 'dart:io';
 // import 'package:flutter/material.dart';
 
-// import 'package:http/http.dart' as http;
-
 // Future<District> fetchDistrict() async {
 //   final response = await http.get(
 //     Uri.parse('https://rw-restaurants-api.herokuapp.com/districts/'),
@@ -84,6 +82,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:restoapp/colors.dart';
+import 'package:restoapp/main.dart';
 import 'package:restoapp/screens/dataaccess/dishes.dart';
 import 'package:restoapp/screens/dataaccess/restaurants.dart';
 import 'package:restoapp/screens/dataaccess/sectors.dart';
@@ -471,6 +470,128 @@ class _RestaurantState extends State<ApiRestaurant> {
                                 )
                                 //label text
                                 )),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            );
+          } else if (snapshot.hasError) {
+            return Text('${snapshot.error}');
+          }
+          return const CircularProgressIndicator();
+        });
+  }
+}
+
+// Fetching all dishes
+
+List<Dish> dishFromJson(String str) =>
+    List<Dish>.from(json.decode(str).map((x) => Dish.fromMap(x)));
+
+class Dish {
+  Dish({
+    required this.name,
+    required this.amount,
+  });
+
+  String name;
+  String amount;
+
+  factory Dish.fromMap(Map<String, dynamic> json) =>
+      Dish(name: json["Name"], amount: json["Price"]);
+}
+
+// state class
+
+Future<List<Dish>> fetchDish() async {
+  final response = await http.get(
+      Uri.parse(
+          'https://rw-restaurants-api.herokuapp.com/dish/'), //accessing restaurant api
+
+      // Sending authorization headers to the backend.
+      headers: {
+        HttpHeaders.authorizationHeader:
+            'Token 94eab566894d7b1ac92817b63efb744c60fc4baa',
+      });
+
+  if (response.statusCode == 200) {
+    final parsed = json.decode(response.body).cast<Map<String, dynamic>>();
+
+    return parsed.map<Dish>((json) => Dish.fromMap(json)).toList();
+  } else {
+    throw Exception('Failed to load Restaurant');
+  }
+}
+
+class ApiDish extends StatefulWidget {
+  const ApiDish({Key? key}) : super(key: key);
+
+  @override
+  _DishState createState() => _DishState();
+}
+
+class _DishState extends State<ApiDish> {
+  late Future<List<Dish>> futureDish;
+
+  get listTile => null;
+
+  @override
+  void initState() {
+    super.initState();
+    futureDish = fetchDish();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return FutureBuilder<List<Dish>>(
+        future: futureDish,
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            return GridView.builder(
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 2,
+                childAspectRatio: 1,
+              ),
+              itemCount: snapshot.data!.length,
+              itemBuilder: (_, index) => Padding(
+                padding: EdgeInsets.fromLTRB(10, 5, 10, 5),
+                child: Container(
+                  height: 60,
+                  color: backgroundcolor,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      Container(
+                        child: Image(
+                          image: AssetImage('images/pizza.png'),
+                          height: 30,
+                          width: 30,
+                        ),
+                      ),
+                      SizedBox(width: 3),
+                      Container(
+                        width: 50,
+                        child: Text(
+                          "${snapshot.data![index].name}",
+                          style: TextStyle(
+                            fontSize: 18.0,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                      SizedBox(
+                        width: 2,
+                      ),
+                      Container(
+                        width: 50,
+                        child: Text(
+                          "${snapshot.data![index].amount}",
+                          style: TextStyle(
+                            fontSize: 18.0,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
                       ),
                     ],
                   ),

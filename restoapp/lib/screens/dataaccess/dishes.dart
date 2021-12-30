@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:restoapp/colors.dart';
+import 'package:restoapp/screens/dataaccess/apiaccess.dart';
 import 'package:restoapp/screens/dataaccess/dishdetails.dart';
 import 'package:restoapp/screens/dataaccess/sectors.dart';
 
@@ -110,16 +111,7 @@ class _DistrictsState extends State<Dishes> {
               )),
         ],
       ),
-      body: Padding(
-          padding: EdgeInsets.all(10),
-          child: GridView.builder(
-            itemCount: 100,
-            itemBuilder: (context, index) => ItemTile(index),
-            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 2,
-              childAspectRatio: 1,
-            ),
-          )),
+      body: ApiDish(),
       bottomNavigationBar: BottomNavigationBar(
         backgroundColor: Colors.black12,
         items: const <BottomNavigationBarItem>[

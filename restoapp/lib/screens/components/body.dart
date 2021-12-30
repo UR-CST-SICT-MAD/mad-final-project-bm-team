@@ -18,7 +18,7 @@ class Body extends StatelessWidget {
           Container(
             padding: EdgeInsets.only(bottom: 50),
             child: Image(
-              image: AssetImage('images/homeicon.png'),
+              image: AssetImage('images/burger.png'),
               height: size.height * 0.2,
             ),
           ),
@@ -40,7 +40,7 @@ class Body extends StatelessWidget {
             width: 10,
           ),
           Container(
-            width: size.height * 0.6,
+            width: size.height * 0.4,
             padding: EdgeInsets.fromLTRB(7, 10, 1, 80),
             child: Text(
               "you are most welcome to this app where you can find a list of the restaurants according to your location (District or Sector)",

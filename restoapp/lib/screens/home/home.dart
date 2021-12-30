@@ -8,6 +8,14 @@ class Home extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(body:Body());
+    return Scaffold(
+        body: Container(
+            child: Body(),
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                image: AssetImage("images/backgroundImage.jpg"),
+                fit: BoxFit.cover,
+              ),
+            )));
   }
 }

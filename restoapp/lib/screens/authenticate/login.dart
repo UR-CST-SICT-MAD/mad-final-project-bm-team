@@ -31,9 +31,10 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
+          backgroundColor: appbarBackGroundColor,
           title: Text(
             'Back',
-            style: TextStyle(fontWeight: FontWeight.bold, color: appbarcolor),
+            style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
           ),
         ),
         body: Padding(
@@ -67,7 +68,7 @@ class _MyAppState extends State<MyApp> {
                   Container(
                     padding: EdgeInsets.all(10),
                     child: TextFormField(
-                      style: TextStyle(color: Colors.white),
+                      style: TextStyle(color: Colors.black),
                       autofocus: false,
                       keyboardType: TextInputType.emailAddress,
                       controller: emailcontroller,
@@ -107,7 +108,7 @@ class _MyAppState extends State<MyApp> {
                     child: TextFormField(
                       autofocus: false,
                       controller: passwordController,
-                      style: TextStyle(color: Colors.white),
+                      style: TextStyle(color: Colors.black),
                       obscureText: true,
                       validator: (value) {
                         RegExp regex = new RegExp(r'^.{8,}$');
@@ -146,6 +147,7 @@ class _MyAppState extends State<MyApp> {
 
                   //login button
                   Container(
+                      decoration: BoxDecoration(),
                       height: 50,
                       padding: EdgeInsets.fromLTRB(90, 0, 90, 0),
                       child: ElevatedButton(
@@ -158,7 +160,9 @@ class _MyAppState extends State<MyApp> {
                         child: Text(
                           'Login',
                           style: TextStyle(
-                              fontSize: 20, fontWeight: FontWeight.bold),
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
                         onPressed: () {
                           signIn(emailcontroller.text, passwordController.text);
