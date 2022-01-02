@@ -18,7 +18,7 @@ class _DistrictsState extends State<Restaurants> {
     'Umurava Restaurants'
   ];
   Icon customIcon = const Icon(Icons.search);
-  Widget customSearchBar = Text('Reastaurants');
+  Widget customSearchBar = Text('Restaurants');
   @override
   Widget build(BuildContext context) {
     return Scaffold(

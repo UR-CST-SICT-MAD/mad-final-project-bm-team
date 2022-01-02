@@ -20,7 +20,7 @@ class MyApp extends StatelessWidget {
       title: 'RestoApp',
       theme: ThemeData(
         primaryColor: kprimarycolor,
-        scaffoldBackgroundColor: Colors.white,
+        scaffoldBackgroundColor: backgroundcolor,
       ),
       home: Wrapper(),
     );

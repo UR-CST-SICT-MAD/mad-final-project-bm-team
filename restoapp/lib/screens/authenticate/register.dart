@@ -109,7 +109,7 @@ class _RegisterState extends State<Register> {
                     child: TextFormField(
                       autofocus: false,
                       keyboardType: TextInputType.name,
-                      style: TextStyle(color: Colors.white),
+                      style: TextStyle(color: Colors.black),
                       controller: secondNameEditingController,
                       validator: (value) {
                         if (value!.isEmpty) {

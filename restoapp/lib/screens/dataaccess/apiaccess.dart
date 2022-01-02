@@ -87,18 +87,23 @@ import 'package:restoapp/screens/dataaccess/dishes.dart';
 import 'package:restoapp/screens/dataaccess/restaurants.dart';
 import 'package:restoapp/screens/dataaccess/sectors.dart';
 
+var distID = 1;
+
 List<District> postFromJson(String str) =>
     List<District>.from(json.decode(str).map((x) => District.fromMap(x)));
 
 class District {
   District({
     required this.name,
+    required this.id,
   });
 
   String name;
+  int id;
 
   factory District.fromMap(Map<String, dynamic> json) => District(
         name: json["Name"],
+        id: json["id"],
       );
 }
 
@@ -154,19 +159,25 @@ class _MyAppState extends State<ApiDistrict> {
                 padding: EdgeInsets.fromLTRB(10, 5, 10, 5),
                 child: Container(
                   height: 60,
-                  color: backgroundcolor,
+                  // color: backgroundcolor,
+                  decoration: BoxDecoration(
+                    border: Border(
+                      bottom: BorderSide(
+                          width: 1.0, color: Colors.lightBlue.shade900),
+                    ),
+                  ),
                   child: Row(
                     children: [
+                      // Container(
+                      //   child: Image(
+                      //     image: AssetImage('images/map.jpg'),
+                      //     height: 30,
+                      //     width: 30,
+                      //   ),
+                      // ),
+                      SizedBox(width: 10),
                       Container(
-                        child: Image(
-                          image: AssetImage('images/map.jpg'),
-                          height: 30,
-                          width: 30,
-                        ),
-                      ),
-                      SizedBox(width: 3),
-                      Container(
-                        width: 100,
+                        width: 120,
                         child: Text(
                           "${snapshot.data![index].name}",
                           style: TextStyle(
@@ -183,6 +194,8 @@ class _MyAppState extends State<ApiDistrict> {
                         padding: EdgeInsets.only(left: 100),
                         child: ElevatedButton.icon(
                             onPressed: () {
+                              distID = snapshot.data![index].id;
+                              print(distID);
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
@@ -224,15 +237,13 @@ List<Sector> sectorFromJson(String str) =>
     List<Sector>.from(json.decode(str).map((x) => Sector.fromMap(x)));
 
 class Sector {
-  Sector({
-    required this.name,
-  });
+  Sector({required this.name, required this.districtid});
 
   String name;
+  int districtid;
 
-  factory Sector.fromMap(Map<String, dynamic> json) => Sector(
-        name: json["Name"],
-      );
+  factory Sector.fromMap(Map<String, dynamic> json) =>
+      Sector(name: json["Name"], districtid: json["District"]);
 }
 
 // state class
@@ -287,19 +298,24 @@ class _SectorState extends State<ApiSector> {
                 padding: EdgeInsets.fromLTRB(10, 5, 10, 5),
                 child: Container(
                   height: 60,
-                  color: backgroundcolor,
+                  decoration: BoxDecoration(
+                    border: Border(
+                      bottom: BorderSide(
+                          width: 1.0, color: Colors.lightBlue.shade900),
+                    ),
+                  ),
                   child: Row(
                     children: [
+                      // Container(
+                      //   child: Image(
+                      //     image: AssetImage('images/map.jpg'),
+                      //     height: 30,
+                      //     width: 30,
+                      //   ),
+                      // ),
+                      SizedBox(width: 20),
                       Container(
-                        child: Image(
-                          image: AssetImage('images/map.jpg'),
-                          height: 30,
-                          width: 30,
-                        ),
-                      ),
-                      SizedBox(width: 3),
-                      Container(
-                        width: 100,
+                        width: 130,
                         child: Text(
                           "${snapshot.data![index].name}",
                           style: TextStyle(
@@ -309,7 +325,7 @@ class _SectorState extends State<ApiSector> {
                         ),
                       ),
                       SizedBox(
-                        width: 10,
+                        width: 5,
                       ),
                       Container(
                         alignment: Alignment.centerRight,
@@ -359,13 +375,14 @@ List<Restaurant> restaurantFromJson(String str) =>
 class Restaurant {
   Restaurant({
     required this.name,
+    required this.rate,
   });
 
   String name;
+  double rate;
 
-  factory Restaurant.fromMap(Map<String, dynamic> json) => Restaurant(
-        name: json["Name"],
-      );
+  factory Restaurant.fromMap(Map<String, dynamic> json) =>
+      Restaurant(name: json["Name"], rate: json["Rate"]);
 }
 
 // state class
@@ -420,7 +437,13 @@ class _RestaurantState extends State<ApiRestaurant> {
                 padding: EdgeInsets.fromLTRB(10, 5, 10, 5),
                 child: Container(
                   height: 60,
-                  color: backgroundcolor,
+                  // color: backgroundcolor,
+                  decoration: BoxDecoration(
+                    border: Border(
+                      bottom: BorderSide(
+                          width: 1.0, color: Colors.lightBlue.shade900),
+                    ),
+                  ),
                   child: Row(
                     children: [
                       Container(
@@ -434,7 +457,7 @@ class _RestaurantState extends State<ApiRestaurant> {
                       Container(
                         width: 100,
                         child: Text(
-                          "${snapshot.data![index].name}",
+                          "${snapshot.data![index].name} Rate: ${snapshot.data![index].rate}",
                           style: TextStyle(
                             fontSize: 18.0,
                             fontWeight: FontWeight.bold,
@@ -549,55 +572,42 @@ class _DishState extends State<ApiDish> {
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             return GridView.builder(
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,
-                childAspectRatio: 1,
-              ),
-              itemCount: snapshot.data!.length,
-              itemBuilder: (_, index) => Padding(
-                padding: EdgeInsets.fromLTRB(10, 5, 10, 5),
-                child: Container(
-                  height: 60,
-                  color: backgroundcolor,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      Container(
-                        child: Image(
-                          image: AssetImage('images/pizza.png'),
-                          height: 30,
-                          width: 30,
-                        ),
-                      ),
-                      SizedBox(width: 3),
-                      Container(
-                        width: 50,
-                        child: Text(
-                          "${snapshot.data![index].name}",
-                          style: TextStyle(
-                            fontSize: 18.0,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ),
-                      SizedBox(
-                        width: 2,
-                      ),
-                      Container(
-                        width: 50,
-                        child: Text(
-                          "${snapshot.data![index].amount}",
-                          style: TextStyle(
-                            fontSize: 18.0,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  mainAxisSpacing: 4,
+                  crossAxisCount: 3,
+                  childAspectRatio: 8.0 / 8.0,
                 ),
-              ),
-            );
+                itemCount: snapshot.data!.length,
+                itemBuilder: (_, index) => Padding(
+                      padding: EdgeInsets.fromLTRB(10, 5, 10, 5),
+                      child: Card(
+                        elevation: 10.0,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10.0),
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.all(10.0),
+                          child: Column(
+                            children: <Widget>[
+                              AspectRatio(
+                                aspectRatio: 18.0 / 11.0,
+                                child: Image(
+                                  image: AssetImage('images/burger.png'),
+                                ),
+                              ),
+                              Center(
+                                child: Text(
+                                  "${snapshot.data![index].name}",
+                                  style: TextStyle(
+                                      fontSize: 14.0,
+                                      fontWeight: FontWeight.w700),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ));
           } else if (snapshot.hasError) {
             return Text('${snapshot.error}');
           }
