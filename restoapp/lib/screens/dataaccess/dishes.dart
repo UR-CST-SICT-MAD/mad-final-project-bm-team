@@ -1,7 +1,12 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:restoapp/colors.dart';
+import 'package:restoapp/models/user.dart';
+import 'package:restoapp/screens/authenticate/login.dart';
 import 'package:restoapp/screens/dataaccess/apiaccess.dart';
 import 'package:restoapp/screens/dataaccess/dishdetails.dart';
+import 'package:restoapp/screens/dataaccess/districts.dart';
 import 'package:restoapp/screens/dataaccess/sectors.dart';
 
 class Dishes extends StatefulWidget {
@@ -49,11 +54,22 @@ class ItemTile extends StatelessWidget {
 }
 
 class _DistrictsState extends State<Dishes> {
-  final List<String> districts = <String>[
-    'Belly Restaraunts',
-    'Rw Restaurant',
-    'Umurava Restaurants'
-  ];
+  User? user = FirebaseAuth.instance.currentUser;
+  UserModel loggedInUser = UserModel();
+
+  @override
+  void initState() {
+    super.initState();
+    FirebaseFirestore.instance
+        .collection("users")
+        .doc(user!.uid)
+        .get()
+        .then((value) {
+      this.loggedInUser = UserModel.fromMap(value.data());
+      setState(() {});
+    });
+  }
+
   Icon customIcon = const Icon(Icons.search);
   Widget customSearchBar = Text('Dishes in Restaurant');
   @override
@@ -61,6 +77,7 @@ class _DistrictsState extends State<Dishes> {
     return Scaffold(
       // backgroundColor: Colors.black,
       appBar: AppBar(
+        backgroundColor: Colors.black,
         title: customSearchBar,
         centerTitle: true,
         actions: <Widget>[
@@ -106,31 +123,68 @@ class _DistrictsState extends State<Dishes> {
           Padding(
               padding: EdgeInsets.only(right: 20.0),
               child: GestureDetector(
-                onTap: () {},
-                child: Icon(Icons.more_vert),
+                onTapDown: (TapDownDetails details) {
+                  _showPopupMenu(details.globalPosition);
+                },
+                child: Container(child: Icon(Icons.more_vert)),
               )),
         ],
       ),
       body: ApiDish(),
       bottomNavigationBar: BottomNavigationBar(
         backgroundColor: Colors.black12,
-        items: const <BottomNavigationBarItem>[
+        items: [
           BottomNavigationBarItem(
-            icon: Icon(
-              Icons.home,
-              color: Colors.black,
+            icon: GestureDetector(
+              onTap: () => Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => Districts())),
+              child: Icon(
+                Icons.home,
+                color: Colors.black,
+              ),
             ),
             label: 'Home',
           ),
           BottomNavigationBarItem(
-            icon: Icon(
-              Icons.restaurant,
-              color: Colors.black,
+            icon: GestureDetector(
+              onTap: () => Navigator.push(
+                  context, MaterialPageRoute(builder: (context) => Dishes())),
+              child: Icon(
+                Icons.restaurant_menu_rounded,
+                color: Colors.black,
+              ),
             ),
-            label: 'Restaurants',
+            label: 'Dishes',
           ),
         ],
       ),
     );
+  }
+
+  void _showPopupMenu(Offset offset) async {
+    double left = offset.dx;
+    double top = offset.dy;
+    await showMenu(
+      context: context,
+      position: RelativeRect.fromLTRB(100, 70, 0, 100),
+      items: [
+        PopupMenuItem(
+          child: Text("Logout", style: TextStyle(fontWeight: FontWeight.bold)),
+          onTap: () => logout(context),
+        ),
+      ],
+      elevation: 10.0,
+    ).then((value) {
+// NOTE: even you didnt select item this method will be called with null of value so you should call your call back with checking if value is not null
+
+      if (value != null) print(value);
+    });
+  }
+
+//logout function
+  Future<void> logout(BuildContext context) async {
+    await FirebaseAuth.instance.signOut();
+    Navigator.of(context)
+        .pushReplacement(MaterialPageRoute(builder: (context) => MyApp()));
   }
 }

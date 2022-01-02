@@ -112,7 +112,7 @@ class _DistrictsState extends State<Profile> {
         items: [
           BottomNavigationBarItem(
             icon: GestureDetector(
-              onTap: () => Navigator.pop(context,
+              onTap: () => Navigator.push(context,
                   MaterialPageRoute(builder: (context) => Districts())),
               child: Icon(
                 Icons.home,
@@ -138,23 +138,8 @@ class _DistrictsState extends State<Profile> {
     double top = offset.dy;
     await showMenu(
       context: context,
-      position: RelativeRect.fromLTRB(100, 100, 0, 100),
+      position: RelativeRect.fromLTRB(100, 70, 0, 100),
       items: [
-        PopupMenuItem(
-          value: 1,
-          child: Text("View"),
-        ),
-        PopupMenuItem(
-          value: 2,
-          child: Text("Edit"),
-        ),
-        PopupMenuItem(
-          onTap: () {
-            logout(context);
-          },
-          value: 3,
-          child: Text("Delete"),
-        ),
         PopupMenuItem(
           value: 3,
           child: Text("Logout"),

@@ -375,14 +375,15 @@ List<Restaurant> restaurantFromJson(String str) =>
 class Restaurant {
   Restaurant({
     required this.name,
-    required this.rate,
+    // required this.rate,
   });
 
   String name;
-  double rate;
+  // double rate;
 
-  factory Restaurant.fromMap(Map<String, dynamic> json) =>
-      Restaurant(name: json["Name"], rate: json["Rate"]);
+  factory Restaurant.fromMap(Map<String, dynamic> json) => Restaurant(
+        name: json["Name"],
+      );
 }
 
 // state class
@@ -457,7 +458,7 @@ class _RestaurantState extends State<ApiRestaurant> {
                       Container(
                         width: 100,
                         child: Text(
-                          "${snapshot.data![index].name} Rate: ${snapshot.data![index].rate}",
+                          "${snapshot.data![index].name}",
                           style: TextStyle(
                             fontSize: 18.0,
                             fontWeight: FontWeight.bold,
@@ -574,36 +575,42 @@ class _DishState extends State<ApiDish> {
             return GridView.builder(
                 gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                   mainAxisSpacing: 4,
-                  crossAxisCount: 3,
+                  crossAxisCount: 4,
                   childAspectRatio: 8.0 / 8.0,
                 ),
                 itemCount: snapshot.data!.length,
                 itemBuilder: (_, index) => Padding(
-                      padding: EdgeInsets.fromLTRB(10, 5, 10, 5),
-                      child: Card(
-                        elevation: 10.0,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10.0),
-                        ),
-                        child: Padding(
-                          padding: const EdgeInsets.all(10.0),
-                          child: Column(
-                            children: <Widget>[
-                              AspectRatio(
-                                aspectRatio: 18.0 / 11.0,
-                                child: Image(
-                                  image: AssetImage('images/burger.png'),
+                      padding: EdgeInsets.fromLTRB(3, 3, 3, 3),
+                      child: GestureDetector(
+                        onTap: () => Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => Restaurants())),
+                        child: Card(
+                          elevation: 30.0,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10.0),
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.all(3.0),
+                            child: Column(
+                              children: <Widget>[
+                                AspectRatio(
+                                  aspectRatio: 18.0 / 11.0,
+                                  child: Image(
+                                    image: AssetImage('images/burger.png'),
+                                  ),
                                 ),
-                              ),
-                              Center(
-                                child: Text(
-                                  "${snapshot.data![index].name}",
-                                  style: TextStyle(
-                                      fontSize: 14.0,
-                                      fontWeight: FontWeight.w700),
+                                Center(
+                                  child: Text(
+                                    "${snapshot.data![index].name}",
+                                    style: TextStyle(
+                                        fontSize: 14.0,
+                                        fontWeight: FontWeight.w700),
+                                  ),
                                 ),
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
                         ),
                       ),

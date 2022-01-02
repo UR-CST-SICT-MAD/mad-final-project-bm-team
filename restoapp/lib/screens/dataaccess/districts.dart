@@ -179,30 +179,14 @@ class _DistrictsState extends State<Districts> {
     double top = offset.dy;
     await showMenu(
       context: context,
-      position: RelativeRect.fromLTRB(100, 100, 0, 100),
+      position: RelativeRect.fromLTRB(100, 70, 0, 100),
       items: [
         PopupMenuItem(
-          value: 1,
-          child: Text("View"),
-        ),
-        PopupMenuItem(
-          value: 2,
-          child: Text("Edit"),
-        ),
-        PopupMenuItem(
-          onTap: () {
-            logout(context);
-          },
-          value: 3,
-          child: Text("Delete"),
-        ),
-        PopupMenuItem(
-          value: 3,
-          child: Text("Logout"),
+          child: Text("Logout", style: TextStyle(fontWeight: FontWeight.bold)),
           onTap: () => logout(context),
         ),
       ],
-      elevation: 8.0,
+      elevation: 10.0,
     ).then((value) {
 // NOTE: even you didnt select item this method will be called with null of value so you should call your call back with checking if value is not null
 
