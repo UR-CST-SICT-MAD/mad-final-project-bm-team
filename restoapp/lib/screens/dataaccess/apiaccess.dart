@@ -83,11 +83,10 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:restoapp/colors.dart';
 import 'package:restoapp/main.dart';
+import 'package:restoapp/screens/dataaccess/dishdetails.dart';
 import 'package:restoapp/screens/dataaccess/dishes.dart';
 import 'package:restoapp/screens/dataaccess/restaurants.dart';
 import 'package:restoapp/screens/dataaccess/sectors.dart';
-
-var distID = 1;
 
 List<District> postFromJson(String str) =>
     List<District>.from(json.decode(str).map((x) => District.fromMap(x)));
@@ -137,6 +136,7 @@ class ApiDistrict extends StatefulWidget {
 }
 
 class _MyAppState extends State<ApiDistrict> {
+  var distID;
   late Future<List<District>> futureDistrict;
 
   get listTile => null;
@@ -177,24 +177,25 @@ class _MyAppState extends State<ApiDistrict> {
                       // ),
                       SizedBox(width: 10),
                       Container(
-                        width: 120,
+                        width: 100,
                         child: Text(
                           "${snapshot.data![index].name}",
                           style: TextStyle(
-                            fontSize: 18.0,
+                            fontSize: 14.0,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
                       ),
                       SizedBox(
-                        width: 10,
+                        width: 0,
                       ),
                       Container(
                         alignment: Alignment.centerRight,
-                        padding: EdgeInsets.only(left: 100),
+                        padding: EdgeInsets.only(left: 90),
                         child: ElevatedButton.icon(
                             onPressed: () {
                               distID = snapshot.data![index].id;
+
                               print(distID);
                               Navigator.push(
                                   context,
@@ -213,7 +214,7 @@ class _MyAppState extends State<ApiDistrict> {
                                     MaterialStateProperty.all(buttonbackcolor),
                                 textStyle: MaterialStateProperty.all(
                                   TextStyle(
-                                      fontSize: 15, color: buttonfontcolor),
+                                      fontSize: 12, color: buttonfontcolor),
                                 )
                                 //label text
                                 )),
@@ -276,6 +277,7 @@ class ApiSector extends StatefulWidget {
 }
 
 class _SectorState extends State<ApiSector> {
+  var dictrictID;
   late Future<List<Sector>> futureSector;
 
   get listTile => null;
@@ -313,6 +315,7 @@ class _SectorState extends State<ApiSector> {
                       //     width: 30,
                       //   ),
                       // ),
+
                       SizedBox(width: 20),
                       Container(
                         width: 130,
@@ -332,6 +335,7 @@ class _SectorState extends State<ApiSector> {
                         padding: EdgeInsets.only(left: 100),
                         child: ElevatedButton.icon(
                             onPressed: () {
+                              dictrictID = snapshot.data![index].districtid;
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
@@ -556,6 +560,7 @@ class ApiDish extends StatefulWidget {
 }
 
 class _DishState extends State<ApiDish> {
+  var index;
   late Future<List<Dish>> futureDish;
 
   get listTile => null;
@@ -582,10 +587,130 @@ class _DishState extends State<ApiDish> {
                 itemBuilder: (_, index) => Padding(
                       padding: EdgeInsets.fromLTRB(3, 3, 3, 3),
                       child: GestureDetector(
-                        onTap: () => Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => Restaurants())),
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => Dishes()));
+                        },
+                        child: Card(
+                          elevation: 30.0,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10.0),
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.all(3.0),
+                            child: Column(
+                              children: <Widget>[
+                                AspectRatio(
+                                  aspectRatio: 18.0 / 11.0,
+                                  child: Image(
+                                    image: AssetImage('images/burger.png'),
+                                  ),
+                                ),
+                                Center(
+                                  child: Text(
+                                    "${snapshot.data![index].name}",
+                                    style: TextStyle(
+                                        fontSize: 14.0,
+                                        fontWeight: FontWeight.w700),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                    ));
+          } else if (snapshot.hasError) {
+            return Text('${snapshot.error}');
+          }
+          return const CircularProgressIndicator();
+        });
+  }
+}
+
+// Fetching Dish1
+
+List<Dish1> dish1FromJson(String str) =>
+    List<Dish1>.from(json.decode(str).map((x) => Dish1.fromMap(x)));
+
+class Dish1 {
+  Dish1({
+    required this.name,
+    required this.amount,
+  });
+
+  String name;
+  String amount;
+
+  factory Dish1.fromMap(Map<String, dynamic> json) =>
+      Dish1(name: json["Name"], amount: json["Price"]);
+}
+
+// state class
+
+Future<List<Dish1>> fetchDish1() async {
+  final response = await http.get(
+      Uri.parse(
+          'https://rw-restaurants-api.herokuapp.com/dish/1'), //accessing restaurant api
+
+      // Sending authorization headers to the backend.
+      headers: {
+        HttpHeaders.authorizationHeader:
+            'Token 94eab566894d7b1ac92817b63efb744c60fc4baa',
+      });
+
+  if (response.statusCode == 200) {
+    final parsed = json.decode(response.body).cast<Map<String, dynamic>>();
+
+    return parsed.map<Dish1>((json) => Dish1.fromMap(json)).toList();
+  } else {
+    throw Exception('Failed to load Restaurant');
+  }
+}
+
+class ApiDish1 extends StatefulWidget {
+  const ApiDish1({Key? key}) : super(key: key);
+
+  @override
+  _Dish1State createState() => _Dish1State();
+}
+
+class _Dish1State extends State<ApiDish1> {
+  var index;
+  late Future<List<Dish1>> futureDish1;
+
+  get listTile => null;
+
+  @override
+  void initState() {
+    super.initState();
+    futureDish1 = fetchDish1();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return FutureBuilder<List<Dish1>>(
+        future: futureDish1,
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            return GridView.builder(
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  mainAxisSpacing: 4,
+                  crossAxisCount: 4,
+                  childAspectRatio: 8.0 / 8.0,
+                ),
+                itemCount: snapshot.data!.length,
+                itemBuilder: (_, index) => Padding(
+                      padding: EdgeInsets.fromLTRB(3, 3, 3, 3),
+                      child: GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => Dishdetails()));
+                        },
                         child: Card(
                           elevation: 30.0,
                           shape: RoundedRectangleBorder(

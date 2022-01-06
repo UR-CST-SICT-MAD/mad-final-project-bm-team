@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:restoapp/colors.dart';
+import 'package:restoapp/screens/dataaccess/apiaccess.dart';
 import 'package:restoapp/screens/dataaccess/sectors.dart';
 
 class Dishdetails extends StatefulWidget {
@@ -44,11 +45,6 @@ class ItemTile extends StatelessWidget {
 }
 
 class _DistrictsState extends State<Dishdetails> {
-  final List<String> districts = <String>[
-    'Belly Restaraunts',
-    'Rw Restaurant',
-    'Umurava Restaurants'
-  ];
   Icon customIcon = const Icon(Icons.search);
   //  customSearchBar = Text('Dish Details');
   @override
@@ -67,16 +63,7 @@ class _DistrictsState extends State<Dishdetails> {
               )),
         ],
       ),
-      body: Padding(
-          padding: EdgeInsets.all(10),
-          child: GridView.builder(
-            itemCount: 1,
-            itemBuilder: (context, index) => ItemTile(index),
-            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 1,
-              childAspectRatio: 1,
-            ),
-          )),
+      body: ApiDish1(),
       bottomNavigationBar: BottomNavigationBar(
         backgroundColor: Colors.black12,
         items: const <BottomNavigationBarItem>[

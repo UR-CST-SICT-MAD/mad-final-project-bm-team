@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/src/rendering/box.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -8,7 +9,10 @@ import 'package:restoapp/colors.dart';
 import 'package:restoapp/main.dart';
 import 'package:restoapp/models/user.dart';
 import 'package:restoapp/screens/components/bottomnavigators/profile.dart';
+import 'package:restoapp/screens/components/menu.dart';
 import 'package:restoapp/screens/dataaccess/apiaccess.dart';
+import 'package:restoapp/screens/dataaccess/dishes.dart';
+import 'package:restoapp/screens/dataaccess/restaurants.dart';
 import 'package:restoapp/screens/dataaccess/sectors.dart';
 import 'package:http/http.dart' as http;
 
@@ -74,7 +78,6 @@ class _DistrictsState extends State<Districts> {
     });
   }
 
-  final List<String> districts = <String>['Rwamagana', 'Musanze', 'Muhanga'];
   Icon customIcon = const Icon(Icons.search);
   Widget customSearchBar = Text('Districts of Rwanda');
   @override
@@ -85,12 +88,6 @@ class _DistrictsState extends State<Districts> {
         backgroundColor: appbarBackGroundColor,
         title: customSearchBar,
         centerTitle: true,
-        leading: GestureDetector(
-          onTap: () {/* Write listener code here */},
-          child: Icon(
-            Icons.menu, // add custom icons also
-          ),
-        ),
         actions: <Widget>[
           Padding(
               padding: EdgeInsets.only(right: 20.0),
@@ -143,7 +140,79 @@ class _DistrictsState extends State<Districts> {
               )),
         ],
       ),
+
+//the drawer
+//===========
+      drawer: Drawer(
+        // Add a ListView to the drawer. This ensures the user can scroll
+        // through the options in the drawer if there isn't enough vertical
+        // space to fit everything.
+        child: ListView(
+          // Important: Remove any padding from the ListView.
+          padding: EdgeInsets.zero,
+          children: [
+            const DrawerHeader(
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                  image: AssetImage("images/backgroundImage.jpg"),
+                  fit: BoxFit.cover,
+                ),
+              ),
+              child: Center(
+                child: Text(
+                  'RestoApp Main Menu',
+                  style: TextStyle(
+                      color: Colors.yellowAccent,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 25),
+                ),
+              ),
+            ),
+            ListTile(
+              title: const Text('Districts',
+                  style: TextStyle(
+                      color: Colors.black,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 15)),
+               onTap: () => Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => Districts())),
+            ),
+            ListTile(
+              title: const Text('Sectors',
+                  style: TextStyle(
+                      color: Colors.black,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 15)),
+              
+                onTap: () => Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => Sectors())),
+               
+              
+            ),
+            ListTile(
+              title: const Text('Restaraurants',
+                  style: TextStyle(
+                      color: Colors.black,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 15)),
+              onTap: () => Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => Restaurants())),
+            ),
+            ListTile(
+              title: const Text('Dishes',
+                  style: TextStyle(
+                      color: Colors.black,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 15)),
+           onTap: () => Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => Dishes())),
+            ),
+          ],
+        ),
+      ),
+
       body: ApiDistrict(),
+
       bottomNavigationBar: BottomNavigationBar(
         backgroundColor: backgroundcolor,
         items: [
