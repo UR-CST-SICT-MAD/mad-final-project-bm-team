@@ -23,21 +23,16 @@ in this final project you are going to put everything together to create a fully
 5. Don't forget to add any links, credentials and any other links required to test the work done.
 
 ## Links and Credentials required to test our work done.
-1. API used
-## link 
-http://restaurantsinrwanda.herokuapp.com/
-## Credentials, 
-Username: janice ,
-Password: 123
 
-2. Firebase (Authentication and Firestore)
-## Link 
-https://console.firebase.google.com/u/0/project/rwanda-restaurants/overview
-## Credentials 
-Email : bizujustin1234@gmail.com ,
-password : Justinbieber@2020
+## API used
+1. link: http://restaurantsinrwanda.herokuapp.com/
+2. Credentials, Username:janice , Password:123
 
-## 3.Credentials required to access RestApp
+## Firebase (Authentication and Firestore)
+1. Link:  https://console.firebase.google.com/u/0/project/rwanda-restaurants/overview
+2. Credentials: Email : bizujustin1234@gmail.com , password : Justinbieber@2020
+
+## Credentials required to access RestApp
 Email: bizumuremyi@gmail.com ,
 password: 123456788
 
