@@ -27,18 +27,18 @@ in this final project you are going to put everything together to create a fully
 ## link 
 http://restaurantsinrwanda.herokuapp.com/
 ## Credentials, 
-Username: janice
+Username: janice ,
 Password: 123
 
 2. Firebase (Authentication and Firestore)
 ## Link 
 https://console.firebase.google.com/u/0/project/rwanda-restaurants/overview
 ## Credentials 
-Email : bizujustin1234@gmail.com
+Email : bizujustin1234@gmail.com ,
 password : Justinbieber@2020
 
 ## 3.Credentials required to access RestApp
-Email: bizumuremyi@gmail.com
+Email: bizumuremyi@gmail.com ,
 password: 123456788
 
 ## Resources
