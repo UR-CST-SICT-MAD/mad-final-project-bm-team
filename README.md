@@ -22,21 +22,24 @@ in this final project you are going to put everything together to create a fully
 4. User registration and authentication should be handled through Firebase.
 5. Don't forget to add any links, credentials and any other links required to test the work done.
 
-##Links and Credentials required to test our work done
-=====================================================
+## Links and Credentials required to test our work done.
 1. API used
-#link, http://restaurantsinrwanda.herokuapp.com/
-#Credentials, Username: janice
-              Password: 123
+## link 
+http://restaurantsinrwanda.herokuapp.com/
+## Credentials, 
+Username: janice
+Password: 123
 
 2. Firebase (Authentication and Firestore)
-#Link, https://console.firebase.google.com/u/0/project/rwanda-restaurants/overview
-#Credentials, Email : bizujustin1234@gmail.com
-              password : Justinbieber@2020
+## Link 
+https://console.firebase.google.com/u/0/project/rwanda-restaurants/overview
+## Credentials 
+Email : bizujustin1234@gmail.com
+password : Justinbieber@2020
 
-3. Credentials required to access RestApp
-    Email: bizumuremyi@gmail.com
-    password: 123456788
+## 3.Credentials required to access RestApp
+Email: bizumuremyi@gmail.com
+password: 123456788
 
 ## Resources
 
