@@ -94,15 +94,15 @@ List<District> postFromJson(String str) =>
 class District {
   District({
     required this.name,
-    required this.id,
+    
   });
 
   String name;
-  int id;
+
 
   factory District.fromMap(Map<String, dynamic> json) => District(
         name: json["Name"],
-        id: json["id"],
+        
       );
 }
 
@@ -111,12 +111,12 @@ class District {
 Future<List<District>> fetchDistrict() async {
   final response = await http.get(
       Uri.parse(
-          'https://rw-restaurants-api.herokuapp.com/districts/'), //accessing restaurant api
+          'http://restaurantsinrwanda.herokuapp.com/district/'), //accessing restaurant api
 
       // Sending authorization headers to the backend.
       headers: {
         HttpHeaders.authorizationHeader:
-            'Token 94eab566894d7b1ac92817b63efb744c60fc4baa',
+            'Token b5dc8da3ce111635a82f9d3f1a53d45274c8d382',
       });
 
   if (response.statusCode == 200) {
@@ -136,7 +136,7 @@ class ApiDistrict extends StatefulWidget {
 }
 
 class _MyAppState extends State<ApiDistrict> {
-  var distID;
+
   late Future<List<District>> futureDistrict;
 
   get listTile => null;
@@ -194,9 +194,9 @@ class _MyAppState extends State<ApiDistrict> {
                         padding: EdgeInsets.only(left: 90),
                         child: ElevatedButton.icon(
                             onPressed: () {
-                              distID = snapshot.data![index].id;
+                              
 
-                              print(distID);
+                              
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
@@ -238,13 +238,13 @@ List<Sector> sectorFromJson(String str) =>
     List<Sector>.from(json.decode(str).map((x) => Sector.fromMap(x)));
 
 class Sector {
-  Sector({required this.name, required this.districtid});
+  Sector({required this.name});
 
   String name;
-  int districtid;
+
 
   factory Sector.fromMap(Map<String, dynamic> json) =>
-      Sector(name: json["Name"], districtid: json["District"]);
+      Sector(name: json["Name"]);
 }
 
 // state class
@@ -252,12 +252,12 @@ class Sector {
 Future<List<Sector>> fetchSector() async {
   final response = await http.get(
       Uri.parse(
-          'https://rw-restaurants-api.herokuapp.com/sectors/'), //accessing restaurant api
+          'http://restaurantsinrwanda.herokuapp.com/sector/'), //accessing restaurant api
 
       // Sending authorization headers to the backend.
       headers: {
         HttpHeaders.authorizationHeader:
-            'Token 94eab566894d7b1ac92817b63efb744c60fc4baa',
+            'Token b5dc8da3ce111635a82f9d3f1a53d45274c8d382',
       });
 
   if (response.statusCode == 200) {
@@ -335,7 +335,7 @@ class _SectorState extends State<ApiSector> {
                         padding: EdgeInsets.only(left: 100),
                         child: ElevatedButton.icon(
                             onPressed: () {
-                              dictrictID = snapshot.data![index].districtid;
+                             
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
@@ -386,7 +386,7 @@ class Restaurant {
   // double rate;
 
   factory Restaurant.fromMap(Map<String, dynamic> json) => Restaurant(
-        name: json["Name"],
+        name: json["Restaurant_name"],
       );
 }
 
@@ -395,12 +395,12 @@ class Restaurant {
 Future<List<Restaurant>> fetchRestaurant() async {
   final response = await http.get(
       Uri.parse(
-          'https://rw-restaurants-api.herokuapp.com/restaurants/'), //accessing restaurant api
+          'http://restaurantsinrwanda.herokuapp.com/restaurant/'), //accessing restaurant api
 
       // Sending authorization headers to the backend.
       headers: {
         HttpHeaders.authorizationHeader:
-            'Token 94eab566894d7b1ac92817b63efb744c60fc4baa',
+            'Token b5dc8da3ce111635a82f9d3f1a53d45274c8d382',
       });
 
   if (response.statusCode == 200) {
@@ -527,7 +527,7 @@ class Dish {
   String amount;
 
   factory Dish.fromMap(Map<String, dynamic> json) =>
-      Dish(name: json["Name"], amount: json["Price"]);
+      Dish(name: json["Dish_name"], amount: json["price"]);
 }
 
 // state class
@@ -535,12 +535,12 @@ class Dish {
 Future<List<Dish>> fetchDish() async {
   final response = await http.get(
       Uri.parse(
-          'https://rw-restaurants-api.herokuapp.com/dish/'), //accessing restaurant api
+          'http://restaurantsinrwanda.herokuapp.com/dish/'), //accessing restaurant api
 
       // Sending authorization headers to the backend.
       headers: {
         HttpHeaders.authorizationHeader:
-            'Token 94eab566894d7b1ac92817b63efb744c60fc4baa',
+            'Token b5dc8da3ce111635a82f9d3f1a53d45274c8d382',
       });
 
   if (response.statusCode == 200) {
@@ -645,7 +645,7 @@ class Dish1 {
   String amount;
 
   factory Dish1.fromMap(Map<String, dynamic> json) =>
-      Dish1(name: json["Name"], amount: json["Price"]);
+      Dish1(name: json["Dish_name"], amount: json["price"]);
 }
 
 // state class
@@ -653,12 +653,12 @@ class Dish1 {
 Future<List<Dish1>> fetchDish1() async {
   final response = await http.get(
       Uri.parse(
-          'https://rw-restaurants-api.herokuapp.com/dish/1'), //accessing restaurant api
+          'http://restaurantsinrwanda.herokuapp.com/dish/'), //accessing restaurant api
 
       // Sending authorization headers to the backend.
       headers: {
         HttpHeaders.authorizationHeader:
-            'Token 94eab566894d7b1ac92817b63efb744c60fc4baa',
+            'Token b5dc8da3ce111635a82f9d3f1a53d45274c8d382',
       });
 
   if (response.statusCode == 200) {
